@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joc Pedra, Paper i Tisora</title>
+</head>
+
+<body>
+    <h2>Joc Pedra, Paper i Tisora</h2>
+    <h3>Entra la teva opció per la jugada:</h3>
+    <input type="radio" name="opcio" value="pedra">Pedra<br>
+    <input type="radio" name="opcio" value="paper">Paper<br>
+    <input type="radio" name="opcio" value="tisora">Tisora<br>
+
+    <h2 id="jugada">Resultat de la Jugada</h2>
+
+    <p id="juagada" style="display: none;">Jugades Guanyades i Perdudes:</p>
+    <div id="cont1" style="display: none;"></div>
+
+    <button id="nova" onclick="nou()">Nova Jugada</button>
+    <button id="ini" onclick="inicialitzaComptador()">Inicialitzar</button>
+    <button id="esborraResultat" onclick="esborraResultat()">Esborra Resultat</button>
+    <button id="esborra" onclick="esborraSeleccio()">Esborra l'opció escollida</button>
+
+    <script>
+        let guanyades = 0;
+        let perdudes = 0;
+        let empats = 0;
+        const resultDiv = document.getElementById("jugada");
+        const jugadesDiv = document.getElementById("juagada");
+        const div1 = document.getElementById("cont1");
+        let initialized = false;
+
+        function generarOpcioAleatoria() {
+            const opcionsPossibles = ["pedra", "paper", "tisora"];
+            return opcionsPossibles[Math.floor(Math.random() * opcionsPossibles.length)];
+        }
+
+        function nou() {
+            if (!initialized) {
+                jugadesDiv.style.display = "block";
+                div1.style.display = "block";
+                initialized = true;
+            }
+
+            resultDiv.innerHTML = "";
+
+            const jugador = document.getElementsByName("opcio");
+            
+
+            for (let i = 0; i < jugador.length; i++) {
+                if (jugador[i].checked) {
+                    selectedOption = true;
+                    break;
+                }
+            }
+
+            
+
+            const maquina = generarOpcioAleatoria();
+
+            if (jugador[0].checked) {
+                if (maquina === "pedra") {
+                    div1.innerHTML = "Has Empatat";
+                    empats++;
+                } else if (maquina === "paper") {
+                    div1.innerHTML = "Has Perdut";
+                    perdudes++;
+                } else if (maquina === "tisora") {
+                    div1.innerHTML = "Has Guanyat";
+                    guanyades++;
+                }
+            } else if (jugador[1].checked) {
+                if (maquina === "paper") {
+                    div1.innerHTML = "Has Empatat";
+                    empats++;
+                } else if (maquina === "tisora") {
+                    div1.innerHTML = "Has Perdut";
+                    perdudes++;
+                } else if (maquina === "pedra") {
+                    div1.innerHTML = "Has Guanyat";
+                    guanyades++;
+                }
+            } else if (jugador[2].checked) {
+                if (maquina === "tisora") {
+                    div1.innerHTML = "Has Empatat";
+                    empats++;
+                } else if (maquina === "paper") {
+                    div1.innerHTML = "Has Perdut";
+                    perdudes++;
+                } else if (maquina === "pedra") {
+                    div1.innerHTML = "Has Guanyat";
+                    guanyades++;
+                }
+            }
+
+            resultDiv.innerHTML = `La màquina va escollir: ${maquina}`;
+            updateJugades();
+        }
+
+        function updateJugades() {
+            jugadesDiv.innerHTML = `Jugades guanyades: ${guanyades}<br>Jugades perdudes: ${perdudes}<br>Empats: ${empats}`;
+        }
+
+
+        function esborraSeleccio() {
+        const jugador = document.getElementsByName("opcio");
+        for (let i = 0; i < jugador.length; i++) {
+            jugador[i].checked = false;
+        }
+    }
+
+        function inicialitzaComptador() {
+            guanyades = 0;
+            perdudes = 0;
+            empats = 0;
+
+            jugadesDiv.innerHTML="";
+        }
+
+        function esborraResultat() {
+
+            resultDiv.innerHTML="";
+            div1.innerHTML="";
+
+            
+            updateJugades();
+        }
+    </script>
+</body>
+
+</html>
